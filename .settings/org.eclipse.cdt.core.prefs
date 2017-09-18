@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+environment/project/0.2107691445/IDF_PATH/delimiter=\:
+environment/project/0.2107691445/IDF_PATH/operation=append
+environment/project/0.2107691445/IDF_PATH/value=/home/yuggo/esp/esp-idf
+environment/project/0.2107691445/PATH/delimiter=\:
+environment/project/0.2107691445/PATH/operation=append
+environment/project/0.2107691445/PATH/value=/home/yuggo/bin\:/home/yuggo/.local/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games\:/usr/local/games\:/snap/bin\:/usr/lib/jvm/java-8-openjdk-amd64/bin\:/home/yuggo/esp/xtensa-esp32-elf/bin
+environment/project/0.2107691445/append=true
+environment/project/0.2107691445/appendContributed=true
+environment/project/0.526734736/IDF_PATH/delimiter=\:
+environment/project/0.526734736/IDF_PATH/operation=append
+environment/project/0.526734736/IDF_PATH/value=/home/yuggo/esp/esp-idf
+environment/project/0.526734736/PATH/delimiter=\:
+environment/project/0.526734736/PATH/operation=append
+environment/project/0.526734736/PATH/value=/home/yuggo/bin\:/home/yuggo/.local/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games\:/usr/local/games\:/snap/bin\:/usr/lib/jvm/java-8-openjdk-amd64/bin\:/home/yuggo/esp/xtensa-esp32-elf/bin
+environment/project/0.526734736/append=true
+environment/project/0.526734736/appendContributed=true

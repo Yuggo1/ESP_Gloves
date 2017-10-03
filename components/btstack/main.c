@@ -312,6 +312,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel,
 
 extern int btstack_main(int argc, const char * argv[]);
 extern int imu_read(int argc, const char * argv[]);
+extern int adcTask(int argc, const char * argv[]);
 
 //static void btTask(void *pvParameters) {
 //	printf("BTstack: setup\n");
@@ -342,10 +343,12 @@ static void imu_task(void *pvParameters) {
 	imu_read(0, NULL);
 }
 
+static void adc_task(void *pvParameters){
+	adcTask(0,NULL);
+}
 // main
 void app_main(void) {
-
-	xTaskCreate(imu_task, "imu_read", 1024 * 4, (void* ) 0, tskIDLE_PRIORITY+1, NULL);
+	//xTaskCreate(imu_task, "imu_read", 1024 * 4, (void* ) 0, tskIDLE_PRIORITY+1, NULL);
 	printf("BTstack: setup\n");
 
 	// enable packet logger
@@ -364,7 +367,7 @@ void app_main(void) {
     hci_add_event_handler(&hci_event_callback_registration);
 
     btstack_main(0, NULL);
-
+    xTaskCreate(adc_task, "adcTask", 1024 * 3, (void* ) 0, tskIDLE_PRIORITY+1, NULL);
     printf("BTstack: execute run loop\n");
     btstack_run_loop_execute();
 //	xTaskCreate(btTask, "bt_task", 1024 * 4, (void* ) 0, tskIDLE_PRIORITY+2,

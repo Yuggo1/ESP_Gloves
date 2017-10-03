@@ -57,19 +57,6 @@ spp_counter.o: \
  /home/yuggo/esp/esp-idf/components/newlib/include/limits.h \
  /home/yuggo/esp/esp-idf/components/freertos/include/freertos/list.h \
  /home/yuggo/esp/esp-idf/components/freertos/include/freertos/queue.h \
- /home/yuggo/esp/esp-idf/components/driver/include/driver/gpio.h \
- /home/yuggo/esp/esp-idf/components/esp32/include/esp_err.h \
- /home/yuggo/esp/esp-idf/components/esp32/include/esp_types.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_reg.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_struct.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/rtc_io_reg.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/io_mux_reg.h \
- /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h \
- /home/yuggo/esp/esp-idf/components/esp32/include/rom/gpio.h \
- /home/yuggo/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/yuggo/esp/esp-idf/components/esp32/include/esp_intr_alloc.h \
- /home/yuggo/esp/esp-idf/components/driver/include/driver/adc.h \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/main/./bno055.h \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/main/./imu.h \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../platform/freertos/btstack_run_loop_freertos.h \
@@ -154,7 +141,20 @@ spp_counter.o: \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/sdp_client.h \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/sdp_client_rfcomm.h \
  /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/sdp_util.h \
- /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/spp_server.h
+ /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/spp_server.h \
+ /home/yuggo/esp/esp-idf/components/driver/include/driver/gpio.h \
+ /home/yuggo/esp/esp-idf/components/esp32/include/esp_err.h \
+ /home/yuggo/esp/esp-idf/components/esp32/include/esp_types.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_reg.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_struct.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/rtc_io_reg.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/io_mux_reg.h \
+ /home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h \
+ /home/yuggo/esp/esp-idf/components/esp32/include/rom/gpio.h \
+ /home/yuggo/esp/esp-idf/components/esp32/include/esp_attr.h \
+ /home/yuggo/esp/esp-idf/components/esp32/include/esp_intr_alloc.h \
+ /home/yuggo/esp/esp-idf/components/driver/include/driver/adc.h
 
 /home/yuggo/esp/esp-idf/components/newlib/include/inttypes.h:
 
@@ -269,32 +269,6 @@ spp_counter.o: \
 /home/yuggo/esp/esp-idf/components/freertos/include/freertos/list.h:
 
 /home/yuggo/esp/esp-idf/components/freertos/include/freertos/queue.h:
-
-/home/yuggo/esp/esp-idf/components/driver/include/driver/gpio.h:
-
-/home/yuggo/esp/esp-idf/components/esp32/include/esp_err.h:
-
-/home/yuggo/esp/esp-idf/components/esp32/include/esp_types.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_reg.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_struct.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/rtc_io_reg.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/io_mux_reg.h:
-
-/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h:
-
-/home/yuggo/esp/esp-idf/components/esp32/include/rom/gpio.h:
-
-/home/yuggo/esp/esp-idf/components/esp32/include/esp_attr.h:
-
-/home/yuggo/esp/esp-idf/components/esp32/include/esp_intr_alloc.h:
-
-/home/yuggo/esp/esp-idf/components/driver/include/driver/adc.h:
 
 /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/main/./bno055.h:
 
@@ -465,3 +439,29 @@ spp_counter.o: \
 /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/sdp_util.h:
 
 /home/yuggo/esp/btstack-master/port/esp32/EspVRGloves/components/btstack/../../../../../src/classic/spp_server.h:
+
+/home/yuggo/esp/esp-idf/components/driver/include/driver/gpio.h:
+
+/home/yuggo/esp/esp-idf/components/esp32/include/esp_err.h:
+
+/home/yuggo/esp/esp-idf/components/esp32/include/esp_types.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_reg.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_struct.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/rtc_io_reg.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/io_mux_reg.h:
+
+/home/yuggo/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h:
+
+/home/yuggo/esp/esp-idf/components/esp32/include/rom/gpio.h:
+
+/home/yuggo/esp/esp-idf/components/esp32/include/esp_attr.h:
+
+/home/yuggo/esp/esp-idf/components/esp32/include/esp_intr_alloc.h:
+
+/home/yuggo/esp/esp-idf/components/driver/include/driver/adc.h:

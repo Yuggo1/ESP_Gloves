@@ -8,22 +8,33 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
-#include "driver/gpio.h"
-#include "driver/adc.h"
 #include "bno055.h"
 #include "imu.h"
 #include "btstack_run_loop_freertos.h"
 #include "btstack.h"
+#include "driver/gpio.h"
+#include "driver/adc.h"
 
 #define RFCOMM_SERVER_CHANNEL 1
-#define HEARTBEAT_PERIOD_MS 30
+#define HEARTBEAT_PERIOD_MS 50
 #define ADC1_TEST_CHANNEL0 (0)
 #define ADC1_TEST_CHANNEL3 (3)
 #define ADC1_TEST_CHANNEL4 (4)
 #define ADC1_TEST_CHANNEL5 (5)
 #define ADC1_TEST_CHANNEL6 (6)
 #define ADC1_TEST_CHANNEL7 (7)
-int a0, a3, a4, a5, a6, a7, yaw, pit, rol, countt;
+#define ADC2_TEST_CHANNEL0 (0)
+#define ADC2_TEST_CHANNEL2 (2)
+#define ADC2_TEST_CHANNEL3 (3)
+#define ADC2_TEST_CHANNEL4 (4)
+#define ADC2_TEST_CHANNEL5 (5)
+#define ADC2_TEST_CHANNEL6 (6)
+#define ADC2_TEST_CHANNEL7 (7)
+#define ADC2_TEST_CHANNEL8 (8)
+#define ADC2_TEST_CHANNEL9 (9)
+
+int a0, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, yaw, pit,
+		rol, countt;
 s16 heading, pitch, roll;
 float rollDeg, pitchDeg, yawDeg;
 
@@ -37,12 +48,22 @@ static btstack_packet_callback_registration_t hci_event_callback_registration;
 static void initADC(void) {
 	// initialize ADC
 	adc1_config_width(ADC_WIDTH_12Bit);
+	adc2_config_width(ADC_WIDTH_12Bit);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL0, ADC_ATTEN_11db);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL3, ADC_ATTEN_11db);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL4, ADC_ATTEN_11db);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL5, ADC_ATTEN_11db);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL6, ADC_ATTEN_11db);
 	adc1_config_channel_atten(ADC1_TEST_CHANNEL7, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_2, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_3, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_4, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_5, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_6, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_7, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_8, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_9, ADC_ATTEN_11db);
 }
 
 static void spp_service_setup(void) {
@@ -51,7 +72,6 @@ static void spp_service_setup(void) {
 	hci_event_callback_registration.callback = &packet_handler;
 	hci_add_event_handler(&hci_event_callback_registration);
 	l2cap_init();
-	initADC();
 	rfcomm_init();
 	rfcomm_register_service(packet_handler, RFCOMM_SERVER_CHANNEL, 0xffff); // reserved channel, mtu limited by l2cap
 
@@ -68,19 +88,11 @@ static btstack_timer_source_t heartbeat;
 static char lineBuffer[200];
 static void heartbeat_handler(struct btstack_timer_source *ts) {
 	if (rfcomm_channel_id) {
-		a0 = adc1_get_voltage(ADC1_TEST_CHANNEL0);
-		a3 = adc1_get_voltage(ADC1_TEST_CHANNEL3);
-		a4 = adc1_get_voltage(ADC1_TEST_CHANNEL4);
-		a5 = adc1_get_voltage(ADC1_TEST_CHANNEL5);
-		a6 = adc1_get_voltage(ADC1_TEST_CHANNEL6);
-		a7 = adc1_get_voltage(ADC1_TEST_CHANNEL7);
 		sprintf(lineBuffer,
-		 "ADC0: %d,ADC3: %d,ADC4: %d,ADC5: %d,ADC6: %d,ADC7: %d,head: %.2f pitch: %.2f roll: %.2f \n", a0,
-		 a3, a4, a5, a6, a7,yawDeg, pitchDeg,rollDeg);
-//		sprintf(lineBuffer,
-//				"ADC0: %d,ADC3: %d,ADC4: %d,ADC5: %d,ADC6: %d,ADC7: %d \n", a0,
-//				a3, a4, a5, a6, a7);
-		//printf("%s", lineBuffer);
+				"ADC0: %d,ADC3: %d,ADC4: %d,ADC5: %d,ADC6: %d,ADC7: %d,ADC8: %d,ADC9: %d,ADC10: %d"
+						",ADC11: %d,ADC12: %d,ADC13: %d,ADC14: %d,ADC15: %d,YAW: %.2f,PIT: %.2f,ROL: %.2f \n",
+				a0, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15,
+				yawDeg, pitchDeg, rollDeg);
 
 		rfcomm_request_can_send_now_event(rfcomm_channel_id);
 	}
@@ -210,7 +222,7 @@ int imu_read(int argc, const char * argv[]) {
 			pitchDeg = pitch / 16;
 			yawDeg = heading / 16;
 			//printf("\nhead: %.2f pitch: %.2f roll: %.2f", yawDeg, pitchDeg,
-					//rollDeg);
+			//rollDeg);
 //			yaw = (int) yawDeg;
 //			pit = (int) pitchDeg;
 //			rol = (int) rollDeg;
@@ -218,6 +230,47 @@ int imu_read(int argc, const char * argv[]) {
 			printf("\nFalho");
 		}
 		vTaskDelay(50 / 100);
+	}
+	return 0;
+}
+
+int adcTask(int argc, const char * argv[]);
+int adcTask(int argc, const char * argv[]) {
+	// initialize ADC
+	adc1_config_width(ADC_WIDTH_12Bit);
+	adc2_config_width(ADC_WIDTH_12Bit);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL0, ADC_ATTEN_11db);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL3, ADC_ATTEN_11db);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL4, ADC_ATTEN_11db);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL5, ADC_ATTEN_11db);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL6, ADC_ATTEN_11db);
+	adc1_config_channel_atten(ADC1_TEST_CHANNEL7, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_2, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_3, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_4, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_5, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_6, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_7, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_8, ADC_ATTEN_11db);
+	adc2_config_channel_atten(ADC2_CHANNEL_9, ADC_ATTEN_11db);
+	while (1) {
+		a0 = adc1_get_voltage(ADC1_TEST_CHANNEL0);
+		a3 = adc1_get_voltage(ADC1_TEST_CHANNEL3);
+		a4 = adc1_get_voltage(ADC1_TEST_CHANNEL4);
+		a5 = adc1_get_voltage(ADC1_TEST_CHANNEL5);
+		a6 = adc1_get_voltage(ADC1_TEST_CHANNEL6);
+		a7 = adc1_get_voltage(ADC1_TEST_CHANNEL7);
+		a8 = adc2_get_voltage(ADC2_TEST_CHANNEL0);
+		a9 = adc2_get_voltage(ADC2_TEST_CHANNEL2);
+		a10 = adc2_get_voltage(ADC2_TEST_CHANNEL3);
+		a11 = adc2_get_voltage(ADC2_TEST_CHANNEL4);
+		a12 = adc2_get_voltage(ADC2_TEST_CHANNEL5);
+		a13 = adc2_get_voltage(ADC2_TEST_CHANNEL6);
+		a14 = adc2_get_voltage(ADC2_TEST_CHANNEL7);
+		a15 = adc2_get_voltage(ADC2_TEST_CHANNEL8);
+		a16 = adc2_get_voltage(ADC2_TEST_CHANNEL9);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 	return 0;
 }
@@ -236,6 +289,7 @@ int btstack_main(int argc, const char * argv[]) {
 
 	// turn on!
 	hci_power_control(HCI_POWER_ON);
+	//initADC();
 
 	return 0;
 }
